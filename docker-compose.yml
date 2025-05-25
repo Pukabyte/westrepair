@@ -1,0 +1,76 @@
+x-repair: &repair
+  build:
+    context: .
+  image: ghcr.io/westsurname/scripts/scripts:latest
+  user: "${PUID:-}${PGID:+:${PGID}}"
+  pull_policy: always
+  command: python repair.py --no-confirm
+  env_file:
+    - .env
+  restart: unless-stopped
+
+services:
+  repair_service:
+    <<: *repair
+    container_name: repair
+    environment:
+      - SONARR_HOST=${SONARR_HOST}
+      - SONARR_API_KEY=${SONARR_API_KEY}
+      - RADARR_HOST=${RADARR_HOST}
+      - RADARR_API_KEY=${RADARR_API_KEY}
+    volumes:
+      - ${REALDEBRID_MOUNT_PARENT_PATH:-/dev/null}:${REALDEBRID_MOUNT_PARENT_PATH:-/dev/null}:rslave
+      - ${TORBOX_MOUNT_PARENT_PATH:-/dev/null}:${TORBOX_MOUNT_PARENT_PATH:-/dev/null}:rslave
+      - ${SONARR_ROOT_FOLDER}:${SONARR_ROOT_FOLDER}
+      - ${RADARR_ROOT_FOLDER}:${RADARR_ROOT_FOLDER}
+    profiles: [repair, repair_all, all]
+
+  repair_4k:
+    <<: *repair
+    container_name: repair4k
+    environment:
+      - SONARR_HOST=${SONARR_HOST_4K}
+      - SONARR_API_KEY=${SONARR_API_KEY_4K}
+      - RADARR_HOST=${RADARR_HOST_4K}
+      - RADARR_API_KEY=${RADARR_API_KEY_4K}
+    volumes:
+      - ${REALDEBRID_MOUNT_PARENT_PATH:-/dev/null}:${REALDEBRID_MOUNT_PARENT_PATH:-/dev/null}:rslave
+      - ${TORBOX_MOUNT_PARENT_PATH:-/dev/null}:${TORBOX_MOUNT_PARENT_PATH:-/dev/null}:rslave
+      - ${SONARR_ROOT_FOLDER_4K}:${SONARR_ROOT_FOLDER}
+      - ${RADARR_ROOT_FOLDER_4K}:${RADARR_ROOT_FOLDER}
+    profiles: [repair_4k, repair_all, all]
+
+  repair_anime:
+    <<: *repair
+    container_name: repairanime
+    environment:
+      - SONARR_HOST=${SONARR_HOST_ANIME}
+      - SONARR_API_KEY=${SONARR_API_KEY_ANIME}
+      - RADARR_HOST=${RADARR_HOST_ANIME}
+      - RADARR_API_KEY=${RADARR_API_KEY_ANIME}
+    volumes:
+      - ${REALDEBRID_MOUNT_PARENT_PATH:-/dev/null}:${REALDEBRID_MOUNT_PARENT_PATH:-/dev/null}:rslave
+      - ${TORBOX_MOUNT_PARENT_PATH:-/dev/null}:${TORBOX_MOUNT_PARENT_PATH:-/dev/null}:rslave
+      - ${SONARR_ROOT_FOLDER_ANIME}:${SONARR_ROOT_FOLDER}
+      - ${RADARR_ROOT_FOLDER_ANIME}:${RADARR_ROOT_FOLDER}
+    profiles: [repair_anime, repair_all, all]
+
+  repair_mux:
+    <<: *repair
+    container_name: repairmux
+    environment:
+      - SONARR_HOST=${SONARR_HOST_MUX}
+      - SONARR_API_KEY=${SONARR_API_KEY_MUX}
+      - RADARR_HOST=${RADARR_HOST_MUX}
+      - RADARR_API_KEY=${RADARR_API_KEY_MUX}
+    volumes:
+      - ${REALDEBRID_MOUNT_PARENT_PATH:-/dev/null}:${REALDEBRID_MOUNT_PARENT_PATH:-/dev/null}:rslave
+      - ${TORBOX_MOUNT_PARENT_PATH:-/dev/null}:${TORBOX_MOUNT_PARENT_PATH:-/dev/null}:rslave
+      - ${SONARR_ROOT_FOLDER_MUX}:${SONARR_ROOT_FOLDER}
+      - ${RADARR_ROOT_FOLDER_MUX}:${RADARR_ROOT_FOLDER}
+    profiles: [repair_mux, repair_all, all]
+
+networks:
+  default:
+    name: ${DOCKER_NETWORK:-scripts_default}
+    external: ${DOCKER_NETWORK_EXTERNAL:-false}
