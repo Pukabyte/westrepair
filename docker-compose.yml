@@ -1,7 +1,6 @@
 x-repair: &repair
   build:
     context: .
-  image: ghcr.io/westsurname/scripts/scripts:latest
   user: "${PUID:-}${PGID:+:${PGID}}"
   pull_policy: always
   command: python repair.py --no-confirm
