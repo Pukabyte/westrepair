@@ -32,10 +32,10 @@ blackhole = {
     'baseWatchPath': env.string('BLACKHOLE_BASE_WATCH_PATH', default=None),
     'radarrPath': env.string('BLACKHOLE_RADARR_PATH', default=None),
     'sonarrPath': env.string('BLACKHOLE_SONARR_PATH', default=None),
-    'failIfNotCached': env.bool('BLACKHOLE_FAIL_IF_NOT_CACHED', default=None),
-    'rdMountRefreshSeconds': env.integer('BLACKHOLE_RD_MOUNT_REFRESH_SECONDS', default=None),
-    'waitForTorrentTimeout': env.integer('BLACKHOLE_WAIT_FOR_TORRENT_TIMEOUT', default=None),
-    'historyPageSize': env.integer('BLACKHOLE_HISTORY_PAGE_SIZE', default=None),
+    'failIfNotCached': env.bool('BLACKHOLE_FAIL_IF_NOT_CACHED', default=true),
+    'rdMountRefreshSeconds': env.integer('BLACKHOLE_RD_MOUNT_REFRESH_SECONDS', default=0),
+    'waitForTorrentTimeout': env.integer('BLACKHOLE_WAIT_FOR_TORRENT_TIMEOUT', default=0),
+    'historyPageSize': env.integer('BLACKHOLE_HISTORY_PAGE_SIZE', default=0),
 }
 
 server = {
@@ -48,8 +48,8 @@ plex = {
     'serverHost': env.string('PLEX_SERVER_HOST', default=None),
     'serverMachineId': env.string('PLEX_SERVER_MACHINE_ID', default=None),
     'serverApiKey': env.string('PLEX_SERVER_API_KEY', default=None),
-    'serverMovieLibraryId': env.integer('PLEX_SERVER_MOVIE_LIBRARY_ID', default=None),
-    'serverTvShowLibraryId': env.integer('PLEX_SERVER_TV_SHOW_LIBRARY_ID', default=None),
+    'serverMovieLibraryId': env.integer('PLEX_SERVER_MOVIE_LIBRARY_ID', default=0),
+    'serverTvShowLibraryId': env.integer('PLEX_SERVER_TV_SHOW_LIBRARY_ID', default=0),
     'serverPath': env.string('PLEX_SERVER_PATH', default=None),
 }
 
